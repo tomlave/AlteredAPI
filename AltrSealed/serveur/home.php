@@ -1,6 +1,4 @@
 
-<img class="3d_carte" src="asset/TBF/TBF-004-F-FR.png">
-
 <div class="PAGE">
 <div class="Window">
 <div class="SEALED" id="SEALED">
