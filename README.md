@@ -20,3 +20,12 @@
 
 ## [Serveur WEB](https://github.com/tomlave/AlteredAPI/tree/main/AltrSealed)
 
+Basé sur le service Apache
+
+### Langage utilisé
+
+- PHP
+- HTML
+- JavaScript
+- CSS
+
