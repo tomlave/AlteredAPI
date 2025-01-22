@@ -1,7 +1,17 @@
 <?php
-error_reporting(1);
-ini_set("display_errors", 1);
+error_reporting(0);
+ini_set("display_errors", 0);
 
+session_start();
+$id = session_id();
+if($_POST['close'] == 'Faire un tirage') {
+	unset($_SESSION["json"]);
+}
+// if(isset($_SESSION["json"])){
+// echo 'isset';
+// } else {
+// echo 'not';
+// }
 ?>
 
 <!DOCTYPE html>

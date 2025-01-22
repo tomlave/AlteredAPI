@@ -1,6 +1,10 @@
-
 <div class="PAGE">
 <div class="Window">
+
+<form action="." method="POST">
+	<input class="ButtonCarte" type="submit" name="close" value="Faire un tirage" />
+</form>
+
 <div class="SEALED" id="SEALED">
 <?php
 
@@ -12,6 +16,9 @@ $HEROS = json_decode($jsonHEROS,true);
 $CARTE_COMMON = json_decode($jsonCOMMON,true);
 $CARTE_RARE = json_decode($jsonRARE,true);
 
+if(isset($_SESSION["json"])) {
+	$DraftJSON = $_SESSION["json"];
+ } else {
 $DraftJSON = array();
 
 for ($y = 1; $y <= 7; $y++) {
@@ -25,10 +32,11 @@ for ($y = 1; $y <= 7; $y++) {
 	}
 	shuffle($HEROS);
 	$DraftJSON[] = $HEROS[0];
-}
-	sort($DraftJSON);
+}}
+sort($DraftJSON);
+$_SESSION["json"] = $DraftJSON;
 	for ($z = 0;$z <= count($DraftJSON)-1;$z++){
-	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."'><img class='carte' id='S".$z."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
 	}
 ?>
 </div>
@@ -71,6 +79,16 @@ for ($y = 1; $y <= 7; $y++) {
 </div>
 
 <script>
+function display(asset) {
+	const vue_carte = document.getElementById("vue_carte")
+	const vue_asset = document.getElementById("vue_asset")
+	vue_asset.setAttribute('style',"")
+	vue_carte.setAttribute('src',asset)
+}
+function shadow() {
+	const vue_asset = document.getElementById("vue_asset")
+	vue_asset.setAttribute('style',"display:none;")
+}
 function swap_sealed(id,id_button) {
 	const object_div = document.getElementById("SD"+id)
 	const image = document.getElementById("S"+id)
@@ -89,6 +107,7 @@ function swap_sealed(id,id_button) {
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('mana',mana)
 	new_img.setAttribute('id',"D"+id)
+	new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')
 	new_img.setAttribute('src',image.getAttribute('src'))
 	new_button.setAttribute('onclick','swap_deck('+id+','+id_button+')')
 	new_button.setAttribute('class','ButtonCarte')
@@ -118,6 +137,7 @@ function swap_deck(id,id_button) {
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('mana',mana)
 	new_img.setAttribute('id',"S"+id)
+	new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')
 	new_img.setAttribute('src',image.getAttribute('src'))
 	new_button.setAttribute('onclick','swap_sealed('+id+','+id_button+')')
 	new_button.setAttribute('class','ButtonCarte')
@@ -148,3 +168,7 @@ function exporter(message) {
 }
 
 </script>
+
+<div class="scolling" id="vue_asset" style="display: none;">
+<center><img class="imageView" id="vue_carte" onclick=shadow() src="asset/TBF/TBF-004-F-FR.png"></center>
+</div>
