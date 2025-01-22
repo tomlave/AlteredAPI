@@ -1,7 +1,7 @@
 import requests
 import json
 
-SAVE_PATH = './ALIZE/'
+SAVE_PATH = './TBF/'
 SETNAME = 'ALIZE'
 ItemPerPage = 36
 Page = 7
@@ -22,19 +22,34 @@ for runPage in range(1,Page):
             if TypeCarte != 'Jeton Personnage':
                 NameJPG = (jsonFile['hydra:member'][runCarte]['collectorNumberFormatted'])
                 RarityJPG = (jsonFile['hydra:member'][runCarte]['rarity']['reference'])
+                DataFaction = (jsonFile['hydra:member'][runCarte]['mainFaction']['reference'])
+                DataName = (jsonFile['hydra:member'][runCarte]['name'])
+                DataMain = (jsonFile['hydra:member'][runCarte]['elements']['MAIN_COST'])
+                if DataMain[0] == '#':
+                    DataMain = DataMain[1]
+                DataRecall = (jsonFile['hydra:member'][runCarte]['elements']['RECALL_COST'])
+                if DataRecall[0] == '#':
+                    DataRecall = DataRecall[1]
+                #DataName = (jsonFile['hydra:member'][runCarte]['elements']['OCEAN_POWER'])
+                #DataName = (jsonFile['hydra:member'][runCarte]['elements']['FOREST_POWER'])
+                #DataName = (jsonFile['hydra:member'][runCarte]['elements']['MOUNTAIN_POWER'])
+
                 LinkJPG = (jsonFile['hydra:member'][runCarte]['imagePath'])
                 responseJPG = requests.get(LinkJPG,allow_redirects=True)
                 if TypeCarte == 'Héros':
-                    JSON_HEROS.append(NameJPG)
+                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall])
                 else:
                     if RarityJPG == 'COMMON':
-                        JSON_CARDS_COMMON.append(NameJPG)
+                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall])
                     else:
-                        JSON_CARDS_RARE.append(NameJPG)
+                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall])
                 if responseJPG.status_code == 200:
                     with open(SAVE_PATH+NameJPG+".png", 'wb') as f:
                         f.write(responseJPG.content)
-                        
-print(JSON_HEROS)
-print(JSON_CARDS_COMMON)
-print(JSON_CARDS_RARE)
+
+with open("heros.json", 'w') as h:
+    json.dump(JSON_HEROS,h)
+with open("common.json", 'w') as c:
+    json.dump(JSON_CARDS_COMMON,c)
+with open("rare.json", 'w') as r:
+    json.dump(JSON_CARDS_RARE,r)
