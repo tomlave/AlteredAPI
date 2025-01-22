@@ -21,6 +21,7 @@ for runPage in range(1,Page):
                 break
             if TypeCarte != 'Jeton Personnage':
                 NameJPG = (jsonFile['hydra:member'][runCarte]['collectorNumberFormatted'])
+                ReferenceJPG = (jsonFile['hydra:member'][runCarte]['reference'])
                 RarityJPG = (jsonFile['hydra:member'][runCarte]['rarity']['reference'])
                 DataFaction = (jsonFile['hydra:member'][runCarte]['mainFaction']['reference'])
                 DataName = (jsonFile['hydra:member'][runCarte]['name'])
@@ -37,12 +38,12 @@ for runPage in range(1,Page):
                 LinkJPG = (jsonFile['hydra:member'][runCarte]['imagePath'])
                 responseJPG = requests.get(LinkJPG,allow_redirects=True)
                 if TypeCarte == 'Héros':
-                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall])
+                    JSON_HEROS.append([ReferenceJPG,NameJPG,DataFaction,DataName,DataMain,DataRecall])
                 else:
                     if RarityJPG == 'COMMON':
-                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall])
+                        JSON_CARDS_COMMON.append([ReferenceJPG,NameJPG,DataFaction,DataName,DataMain,DataRecall])
                     else:
-                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall])
+                        JSON_CARDS_RARE.append([ReferenceJPG,NameJPG,DataFaction,DataName,DataMain,DataRecall])
                 if responseJPG.status_code == 200:
                     with open(SAVE_PATH+NameJPG+".png", 'wb') as f:
                         f.write(responseJPG.content)
