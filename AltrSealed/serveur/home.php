@@ -1,23 +1,152 @@
 
-<div class="SEALED">
+<img class="3d_carte" src="asset/TBF/TBF-004-F-FR.png">
+
+<div class="PAGE">
+<div class="Window">
+<div class="SEALED" id="SEALED">
 <?php
 
-$HEROS = ['TBF-001-H-FR', 'TBF-002-H-FR', 'TBF-018-H-FR', 'TBF-019-H-FR', 'TBF-036-H-FR', 'TBF-035-H-FR', 'TBF-052-H-FR', 'TBF-053-H-FR', 'TBF-069-H-FR', 'TBF-070-H-FR', 'TBF-086-H-FR', 'TBF-087-H-FR'];;
-$CARTE_COMMON = ['TBF-004-C-FR', 'TBF-008-C-FR', 'TBF-012-C-FR', 'TBF-014-C-FR', 'TBF-015-C-FR', 'TBF-009-C-FR', 'TBF-017-C-FR', 'TBF-016-C-FR', 'TBF-020-C-FR', 'TBF-022-C-FR', 'TBF-021-C-FR', 'TBF-023-C-FR', 'TBF-024-C-FR', 'TBF-025-C-FR', 'TBF-026-C-FR', 'TBF-028-C-FR', 'TBF-029-C-FR', 'TBF-032-C-FR', 'TBF-031-C-FR', 'TBF-033-C-FR', 'TBF-034-C-FR', 'TBF-037-C-FR', 'TBF-041-C-FR', 'TBF-044-C-FR', 'TBF-043-C-FR', 'TBF-045-C-FR', 'TBF-046-C-FR', 'TBF-047-C-FR', 'TBF-048-C-FR', 'TBF-049-C-FR', 'TBF-051-C-FR', 'TBF-055-C-FR', 'TBF-054-C-FR', 'TBF-056-C-FR', 'TBF-057-C-FR', 'TBF-058-C-FR', 'TBF-060-C-FR', 'TBF-062-C-FR', 'TBF-063-C-FR', 'TBF-065-C-FR', 'TBF-066-C-FR', 'TBF-067-C-FR', 'TBF-068-C-FR', 'TBF-071-C-FR', 'TBF-072-C-FR', 'TBF-076-C-FR', 'TBF-078-C-FR', 'TBF-082-C-FR', 'TBF-084-C-FR', 'TBF-079-C-FR', 'TBF-085-C-FR', 'TBF-088-C-FR', 'TBF-090-C-FR', 'TBF-092-C-FR', 'TBF-094-C-FR', 'TBF-096-C-FR', 'TBF-095-C-FR', 'TBF-097-C-FR', 'TBF-098-C-FR', 'TBF-101-C-FR'];
-$CARTE_RARE = ['TBF-004-R-FR', 'TBF-004-F-FR', 'TBF-008-R-FR', 'TBF-008-F-FR', 'TBF-012-R-FR', 'TBF-012-F-FR', 'TBF-014-R-FR', 'TBF-014-F-FR', 'TBF-015-R-FR', 'TBF-015-F-FR', 'TBF-009-R-FR', 'TBF-009-F-FR', 'TBF-017-R-FR', 'TBF-017-F-FR', 'TBF-016-R-FR', 'TBF-016-F-FR', 'TBF-020-R-FR', 'TBF-020-F-FR', 'TBF-022-R-FR', 'TBF-022-F-FR', 'TBF-021-R-FR', 'TBF-021-F-FR', 'TBF-023-R-FR', 'TBF-023-F-FR', 'TBF-024-R-FR', 'TBF-024-F-FR', 'TBF-025-R-FR', 'TBF-025-F-FR', 'TBF-026-R-FR', 'TBF-026-F-FR', 'TBF-028-R-FR', 'TBF-028-F-FR', 'TBF-030-R-FR', 'TBF-030-F-FR', 'TBF-029-R-FR', 'TBF-029-F-FR', 'TBF-032-R-FR', 'TBF-032-F-FR', 'TBF-031-R-FR', 'TBF-031-F-FR', 'TBF-033-R-FR', 'TBF-033-F-FR', 'TBF-034-R-FR', 'TBF-034-F-FR', 'TBF-037-R-FR', 'TBF-037-F-FR', 'TBF-041-R-FR', 'TBF-041-F-FR', 'TBF-044-R-FR', 'TBF-044-F-FR', 'TBF-043-R-FR', 'TBF-043-F-FR', 'TBF-045-R-FR', 'TBF-045-F-FR', 'TBF-046-R-FR', 'TBF-046-F-FR', 'TBF-047-R-FR', 'TBF-047-F-FR', 'TBF-048-R-FR', 'TBF-048-F-FR', 'TBF-049-R-FR', 'TBF-049-F-FR', 'TBF-051-R-FR', 'TBF-051-F-FR', 'TBF-055-R-FR', 'TBF-055-F-FR', 'TBF-054-R-FR', 'TBF-054-F-FR', 'TBF-056-R-FR', 'TBF-056-F-FR', 'TBF-057-R-FR', 'TBF-057-F-FR', 'TBF-058-R-FR', 'TBF-058-F-FR', 'TBF-060-R-FR', 'TBF-060-F-FR', 'TBF-062-R-FR', 'TBF-062-F-FR', 'TBF-063-R-FR', 'TBF-063-F-FR', 'TBF-065-R-FR', 'TBF-065-F-FR', 'TBF-066-R-FR', 'TBF-066-F-FR', 'TBF-067-R-FR', 'TBF-067-F-FR', 'TBF-068-R-FR', 'TBF-068-F-FR', 'TBF-071-R-FR', 'TBF-071-F-FR', 'TBF-072-R-FR', 'TBF-072-F-FR', 'TBF-076-R-FR', 'TBF-076-F-FR', 'TBF-078-R-FR', 'TBF-078-F-FR', 'TBF-082-R-FR', 'TBF-082-F-FR', 'TBF-084-R-FR', 'TBF-084-F-FR', 'TBF-079-R-FR', 'TBF-079-F-FR', 'TBF-085-R-FR', 'TBF-085-F-FR', 'TBF-088-R-FR', 'TBF-088-F-FR', 'TBF-090-R-FR', 'TBF-090-F-FR', 'TBF-092-R-FR', 'TBF-092-F-FR', 'TBF-094-R-FR', 'TBF-094-F-FR', 'TBF-096-R-FR', 'TBF-096-F-FR', 'TBF-095-R-FR', 'TBF-095-F-FR', 'TBF-097-R-FR', 'TBF-097-F-FR', 'TBF-098-R-FR', 'TBF-098-F-FR', 'TBF-101-R-FR', 'TBF-101-F-FR'];
+$jsonHEROS = file_get_contents('./asset/heros.json');
+$jsonCOMMON = file_get_contents('./asset/common.json');
+$jsonRARE = file_get_contents('./asset/rare.json');
 
+$HEROS = json_decode($jsonHEROS,true);
+$CARTE_COMMON = json_decode($jsonCOMMON,true);
+$CARTE_RARE = json_decode($jsonRARE,true);
+
+$DraftJSON = array();
 
 for ($y = 1; $y <= 7; $y++) {
 	for ($x = 1; $x <= 9; $x++) {
 		shuffle($CARTE_COMMON);
-		echo "<img class='carte' src='asset/TBF/".$CARTE_COMMON[0].".png'>";
+		$DraftJSON[] = $CARTE_COMMON[0];
 	}
 	for ($x = 1; $x <= 3; $x++) {
 		shuffle($CARTE_RARE);
-		echo "<img class='carte' src='asset/TBF/".$CARTE_RARE[0].".png'>";
+		$DraftJSON[] = $CARTE_RARE[0];
 	}
 	shuffle($HEROS);
-	echo "<img class='carte' src='asset/TBF/".$HEROS[0].".png'>";
+	$DraftJSON[] = $HEROS[0];
 }
+	sort($DraftJSON);
+	for ($z = 0;$z <= count($DraftJSON)-1;$z++){
+	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."'><img class='carte' id='S".$z."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
+	}
 ?>
 </div>
+</div>
+
+<div class="Window" >
+	<center><button class='ButtonCarte' onclick='exporter()'>Exporter</button></center>
+	</br>
+	<center><div class="deck_count"><label>le deck contient: </label><label id="count" value="0">0</label></center>
+	<div class="DECK">
+
+	<div id='hand0' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/x.svg"></center>
+	</div>
+	<div id='hand1' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/1.svg"></center>
+	</div>
+	<div id='hand2' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/2.svg"></center>
+	</div>
+	<div id='hand3' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/3.svg"></center>
+	</div>
+	<div id='hand4' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/4.svg"></center>
+	</div>
+	<div id='hand5' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/5.svg"></center>
+	</div>
+	<div id='hand6' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/6.svg"></center>
+	</div>
+	<div id='hand7' class='ManaCost'>
+		<center><img class="imgHand" src="asset/ui/7.svg"></center>
+	</div>
+
+
+	</div>
+</div>
+</div>
+
+<script>
+function swap_sealed(id,id_button) {
+	const object_div = document.getElementById("SD"+id)
+	const image = document.getElementById("S"+id)
+	var mana = image.getAttribute('mana')
+	if (mana >= 7) {
+		mana = '7'
+	}
+	const element = document.getElementById("hand"+mana)
+	const new_div = document.createElement('div')
+	const new_img = document.createElement('img')
+	const new_button = document.createElement('button')
+	const new_text_button = document.createTextNode('Supprimer')
+	new_div.setAttribute('class','imgAdd')
+	new_div.setAttribute('id','DD'+id)
+	new_div.setAttribute('value',object_div.getAttribute('value'))
+	new_img.setAttribute('class','carte')
+	new_img.setAttribute('mana',mana)
+	new_img.setAttribute('id',"D"+id)
+	new_img.setAttribute('src',image.getAttribute('src'))
+	new_button.setAttribute('onclick','swap_deck('+id+','+id_button+')')
+	new_button.setAttribute('class','ButtonCarte')
+	new_button.setAttribute('id','DB'+id_button)
+	new_button.appendChild(new_text_button)
+	new_div.appendChild(new_img)
+	new_div.appendChild(new_button)
+	element.appendChild(new_div)
+	object_div.remove()
+	reload(+1)
+}
+function swap_deck(id,id_button) {
+	const object_div = document.getElementById("DD"+id)
+	const image = document.getElementById("D"+id)
+	var mana = image.getAttribute('mana')
+	if (mana >= 7) {
+		mana = '7'
+	}
+	const element = document.getElementById("SEALED")
+	const new_div = document.createElement('div')
+	const new_img = document.createElement('img')
+	const new_button = document.createElement('button')
+	const new_text_button = document.createTextNode('Ajouter')
+	new_div.setAttribute('class','imgAdd')
+	new_div.setAttribute('id','SD'+id)
+	new_div.setAttribute('value',object_div.getAttribute('value'))
+	new_img.setAttribute('class','carte')
+	new_img.setAttribute('mana',mana)
+	new_img.setAttribute('id',"S"+id)
+	new_img.setAttribute('src',image.getAttribute('src'))
+	new_button.setAttribute('onclick','swap_sealed('+id+','+id_button+')')
+	new_button.setAttribute('class','ButtonCarte')
+	new_button.setAttribute('id','SB'+id_button)
+	new_button.appendChild(new_text_button)
+	new_div.appendChild(new_img)
+	new_div.appendChild(new_button)
+	element.insertBefore(new_div,element.childNodes[id+1])
+	object_div.remove()
+	reload(-1)
+}
+function reload(value) {
+	var container = document.getElementById("count");
+	var newValue = parseInt(container.getAttribute('value'))+parseInt(value)
+	container.setAttribute('value',newValue)
+	container.innerHTML = newValue;
+
+}
+function exporter(message) {
+	var message_txt = ''
+	for (let h = 0; h <= 7; h++){
+		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
+			var deckList = document.getElementById('hand'+h).childNodes[i].getAttribute('value')
+			 message_txt = message_txt+'\n'+deckList
+		}
+	}
+	window.alert(message_txt);
+}
+
+</script>
