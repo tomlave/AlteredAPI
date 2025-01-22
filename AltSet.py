@@ -1,5 +1,11 @@
 import requests
+import os
 import json
+
+try:
+    os.makedirs('./TBF')
+except :
+    pass
 
 SAVE_PATH = './TBF/'
 SETNAME = 'ALIZE'
@@ -38,12 +44,12 @@ for runPage in range(1,Page):
                 LinkJPG = (jsonFile['hydra:member'][runCarte]['imagePath'])
                 responseJPG = requests.get(LinkJPG,allow_redirects=True)
                 if TypeCarte == 'Héros':
-                    JSON_HEROS.append([ReferenceJPG,NameJPG,DataFaction,DataName,DataMain,DataRecall])
+                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG])
                 else:
                     if RarityJPG == 'COMMON':
-                        JSON_CARDS_COMMON.append([ReferenceJPG,NameJPG,DataFaction,DataName,DataMain,DataRecall])
+                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG])
                     else:
-                        JSON_CARDS_RARE.append([ReferenceJPG,NameJPG,DataFaction,DataName,DataMain,DataRecall])
+                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG])
                 if responseJPG.status_code == 200:
                     with open(SAVE_PATH+NameJPG+".png", 'wb') as f:
                         f.write(responseJPG.content)
