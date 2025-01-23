@@ -7,7 +7,25 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-
+.FACTION {
+  grid-template-columns: repeat(6,minmax(0,1fr));
+  margin-right: auto;
+  display: grid;
+  max-width: 500px;
+  gap: .0rem .0rem;
+}
+.imgFaction {
+  width: 100%;
+  height: auto;
+}
+.FactionCount{
+  font-family: Chillax-Medium;
+  font-weight: bold;
+  font-size:40px;
+  top:-10.25rem;
+  position:relative;
+  color: rgb(231, 233, 235);
+}
 
 .PAGE {
   border: 0 solid #e5e7eb;
@@ -75,6 +93,7 @@ body {
   top:-1.25rem;
   position:relative;
   font-family: Chillax-Medium;
+  font-weight: bold;
   border: 0 solid #e5e7eb;
   border-radius: .25rem;
   border-width: 4px;
@@ -90,6 +109,7 @@ body {
 
 .imageView {
   width:25%;
+  position:relative;
 }
 .scolling {
   position:sticky;

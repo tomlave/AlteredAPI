@@ -5,6 +5,51 @@
 	<input class="ButtonCarte" type="submit" name="close" value="Faire un tirage" />
 </form>
 
+<div class="FACTION" id="FACTION">
+	<div id='FactionAX' class='FactionInfo'>
+		<center>
+			<img class="imgFaction" src="asset/ui/AXIOM.webp">
+			</br>
+			<label id="CountAX" class="FactionCount"><b>0</b></label>
+		</center>
+	</div>
+	<div id='FactionBR' class='FactionInfo'>
+		<center>
+			<img class="imgFaction" src="asset/ui/BRAVOS.webp">
+			</br>
+			<label id="CountBR" class="FactionCount"><b>0</b></label>
+		</center>
+	</div>
+	<div id='FactionLY' class='FactionInfo'>
+		<center>
+			<img class="imgFaction" src="asset/ui/LYRA.webp">
+			</br>
+			<label id="CountLY" class="FactionCount"><b>0</b></label>
+		</center>
+	</div>
+	<div id='FactionMU' class='FactionInfo'>
+		<center>
+			<img class="imgFaction" src="asset/ui/MUNA.webp">
+			</br>
+			<label id="CountMU" class="FactionCount"><b>0</b></label>
+		</center>
+	</div>
+	<div id='FactionOR' class='FactionInfo'>
+		<center>
+			<img class="imgFaction" src="asset/ui/ORDIS.webp">
+			</br>
+			<label id="CountOR" class="FactionCount"><b>0</b></label>
+		</center>
+	</div>
+	<div id='FactionYZ' class='FactionInfo'>
+		<center>
+			<img class="imgFaction" src="asset/ui/YZMIR.webp">
+			</br>
+			<label id="CountYZ" class="FactionCount"><b>0</b></label>
+		</center>
+	</div>
+</div>
+
 <div class="SEALED" id="SEALED">
 <?php
 
@@ -36,7 +81,26 @@ for ($y = 1; $y <= 7; $y++) {
 sort($DraftJSON);
 $_SESSION["json"] = $DraftJSON;
 	for ($z = 0;$z <= count($DraftJSON)-1;$z++){
-	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
+		if ($DraftJSON[$z][1] == 'AX'){
+			$AX = $AX++;
+		}
+		if ($DraftJSON[$z][1] == 'BR'){
+			$BR = $BR++;
+		}
+		if ($DraftJSON[$z][1] == 'LY'){
+			$LY = $LY++;
+		}
+		if ($DraftJSON[$z][1] == 'MU'){
+			$MU = $MU++;
+		}
+		if ($DraftJSON[$z][1] == 'OR'){
+			$OR = $OR++;
+		}
+		if ($DraftJSON[$z][1] == 'YZ'){
+			$YZ = $YZ++;
+		}
+	echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
+	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
 	}
 ?>
 </div>
@@ -79,6 +143,9 @@ $_SESSION["json"] = $DraftJSON;
 </div>
 
 <script>
+function ShowFaction(AX,BR,LY,MU,OR,YZ) {
+	console.log(AX,BR,LY,MU,OR,YZ)
+}
 function display(asset) {
 	const vue_carte = document.getElementById("vue_carte")
 	const vue_asset = document.getElementById("vue_asset")
@@ -169,6 +236,6 @@ function exporter(message) {
 
 </script>
 
-<div class="scolling" id="vue_asset" style="display: none;">
-<center><img class="imageView" id="vue_carte" onclick=shadow() src="asset/TBF/TBF-004-F-FR.png"></center>
+<div class="scolling" id="vue_asset" onclick=shadow() style="display: none;">
+<center><img class="imageView" id="vue_carte" src="asset/TBF/TBF-004-F-FR.png"></center>
 </div>
