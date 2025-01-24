@@ -1,3 +1,14 @@
+
+<script>
+function ShowFaction(AX,BR,LY,MU,OR,YZ) {
+	document.getElementById("CountAX").innerHTML = AX
+	document.getElementById("CountBR").innerHTML = BR
+	document.getElementById("CountLY").innerHTML = LY
+	document.getElementById("CountMU").innerHTML = MU
+	document.getElementById("CountOR").innerHTML = OR
+	document.getElementById("CountYZ").innerHTML = YZ
+}
+</script>
 <div class="PAGE">
 <div class="Window">
 
@@ -80,28 +91,35 @@ for ($y = 1; $y <= 7; $y++) {
 }}
 sort($DraftJSON);
 $_SESSION["json"] = $DraftJSON;
+$AX = 0;
+$BR = 0;
+$LY = 0;
+$MU = 0;
+$OR = 0;
+$YZ = 0;
 	for ($z = 0;$z <= count($DraftJSON)-1;$z++){
 		if ($DraftJSON[$z][1] == 'AX'){
-			$AX = $AX++;
+			$AX = $AX+1;
 		}
 		if ($DraftJSON[$z][1] == 'BR'){
-			$BR = $BR++;
+			$BR = $BR+1;
 		}
 		if ($DraftJSON[$z][1] == 'LY'){
-			$LY = $LY++;
+			$LY = $LY+1;
 		}
 		if ($DraftJSON[$z][1] == 'MU'){
-			$MU = $MU++;
+			$MU = $MU+1;
 		}
 		if ($DraftJSON[$z][1] == 'OR'){
-			$OR = $OR++;
+			$OR = $OR+1;
 		}
 		if ($DraftJSON[$z][1] == 'YZ'){
-			$YZ = $YZ++;
+			$YZ = $YZ +1;
 		}
-	echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
 	}
+echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
+
 ?>
 </div>
 </div>
@@ -143,9 +161,6 @@ $_SESSION["json"] = $DraftJSON;
 </div>
 
 <script>
-function ShowFaction(AX,BR,LY,MU,OR,YZ) {
-	console.log(AX,BR,LY,MU,OR,YZ)
-}
 function display(asset) {
 	const vue_carte = document.getElementById("vue_carte")
 	const vue_asset = document.getElementById("vue_asset")
@@ -159,6 +174,8 @@ function shadow() {
 function swap_sealed(id,id_button) {
 	const object_div = document.getElementById("SD"+id)
 	const image = document.getElementById("S"+id)
+	const faction = document.getElementById("Count"+image.getAttribute('faction'))
+	faction.innerHTML = parseInt(faction.innerHTML)-1
 	var mana = image.getAttribute('mana')
 	if (mana >= 7) {
 		mana = '7'
@@ -172,6 +189,7 @@ function swap_sealed(id,id_button) {
 	new_div.setAttribute('id','DD'+id)
 	new_div.setAttribute('value',object_div.getAttribute('value'))
 	new_img.setAttribute('class','carte')
+	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
 	new_img.setAttribute('id',"D"+id)
 	new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')
@@ -189,6 +207,8 @@ function swap_sealed(id,id_button) {
 function swap_deck(id,id_button) {
 	const object_div = document.getElementById("DD"+id)
 	const image = document.getElementById("D"+id)
+	const faction = document.getElementById("Count"+image.getAttribute('faction'))
+	faction.innerHTML = parseInt(faction.innerHTML)+1
 	var mana = image.getAttribute('mana')
 	if (mana >= 7) {
 		mana = '7'
@@ -202,6 +222,7 @@ function swap_deck(id,id_button) {
 	new_div.setAttribute('id','SD'+id)
 	new_div.setAttribute('value',object_div.getAttribute('value'))
 	new_img.setAttribute('class','carte')
+	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
 	new_img.setAttribute('id',"S"+id)
 	new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')

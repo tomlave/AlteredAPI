@@ -15,7 +15,7 @@ SETNAME = 'ALIZE'
 ItemPerPage = 36
 
 # Nombre de page à exporté
-PAGE = 7
+PAGE = 9
 
 # Langue exporté
 headers = {"Accept-Language":"fr-FR"} #en-US
