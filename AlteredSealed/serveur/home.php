@@ -266,18 +266,18 @@ function test_faction() {
 			 countFactionDeck[CarteFaction] = countFactionDeck[CarteFaction]+1
 		}
 	}
-	if (countFactionDeck['AX'] <= 1) {
-		document.getElementById['FactionDeckAX'].setAttribute('style','filter: grayscale(0%)')
+	if (countFactionDeck['AX'] >= 1) {
+		document.getElementById['FactionDeckAX'].setAttribute('style','filter: grayscale(0%);')
 	}
 	console.log(countFactionDeck)
 }
 function exporter(message) {
-	test_faction()
+	// test_faction()
 	var message_txt = ''
 	for (let h = 0; h <= 7; h++){
 		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
 			var deckList = document.getElementById('hand'+h).childNodes[i].getAttribute('value')
-			 message_txt = message_txt+'\n'+deckList
+			 message_txt = message_txt+'\n 1 '+deckList
 		}
 	}
 	window.alert(message_txt);
