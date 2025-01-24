@@ -195,7 +195,7 @@ function swap_sealed(id,id_button) {
 	const new_text_button = document.createTextNode('Supprimer')
 	new_div.setAttribute('class','imgAdd')
 	new_div.setAttribute('id','DD'+id)
-	console.log((element.childNodes.length)-2)
+	// console.log((element.childNodes.length)-2)
 	 // if(element.childNodes.length-2 >= 2) {
 		  // new_div.setAttribute('style','top:-'+0.75*(element.childNodes.length-2)+'rem;position:relative;')
 	  // }
@@ -216,6 +216,7 @@ function swap_sealed(id,id_button) {
 	element.appendChild(new_div)
 	object_div.remove()
 	reload(+1)
+	test_faction()
 }
 function swap_deck(id,id_button) {
 	const object_div = document.getElementById("DD"+id)
@@ -250,6 +251,7 @@ function swap_deck(id,id_button) {
 	element.insertBefore(new_div,element.childNodes[id+1])
 	object_div.remove()
 	reload(-1)
+	test_faction()
 }
 function reload(value) {
 	var container = document.getElementById("count");
@@ -267,12 +269,38 @@ function test_faction() {
 		}
 	}
 	if (countFactionDeck['AX'] >= 1) {
-		document.getElementById['FactionDeckAX'].setAttribute('style','filter: grayscale(0%);')
+		document.getElementById('FactionDeckAX').setAttribute('style','filter: grayscale(0%);')
+	} else {
+		document.getElementById('FactionDeckAX').setAttribute('style','filter: grayscale(100%);')
 	}
-	console.log(countFactionDeck)
+	if (countFactionDeck['BR'] >= 1) {
+		document.getElementById('FactionDeckBR').setAttribute('style','filter: grayscale(0%);')
+	} else {
+		document.getElementById('FactionDeckBR').setAttribute('style','filter: grayscale(100%);')
+	}
+	if (countFactionDeck['LY'] >= 1) {
+		document.getElementById('FactionDeckLY').setAttribute('style','filter: grayscale(0%);')
+	} else {
+		document.getElementById('FactionDeckLY').setAttribute('style','filter: grayscale(100%);')
+	}
+	if (countFactionDeck['MU'] >= 1) {
+		document.getElementById('FactionDeckMU').setAttribute('style','filter: grayscale(0%);')
+	} else {
+		document.getElementById('FactionDeckMU').setAttribute('style','filter: grayscale(100%);')
+	}
+	if (countFactionDeck['OR'] >= 1) {
+		document.getElementById('FactionDeckOR').setAttribute('style','filter: grayscale(0%);')
+	} else {
+		document.getElementById('FactionDeckOR').setAttribute('style','filter: grayscale(100%);')
+	}
+	if (countFactionDeck['YZ'] >= 1) {
+		document.getElementById('FactionDeckYZ').setAttribute('style','filter: grayscale(0%);')
+	} else {
+		document.getElementById('FactionDeckYZ').setAttribute('style','filter: grayscale(100%);')
+	}
+	// console.log(countFactionDeck)
 }
 function exporter(message) {
-	// test_faction()
 	var message_txt = ''
 	for (let h = 0; h <= 7; h++){
 		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
@@ -280,7 +308,7 @@ function exporter(message) {
 			 message_txt = message_txt+'\n 1 '+deckList
 		}
 	}
-	window.alert(message_txt);
+	alert(message_txt);
 }
 
 </script>
