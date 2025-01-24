@@ -127,6 +127,14 @@ echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</scri
 <div class="Window" >
 	<center><button class='ButtonCarte' onclick='exporter()'>Exporter</button></center>
 	</br>
+	<div class="FACTION_DECK">
+		<img class="imgFactionDeck" id="FactionDeckAX" src="asset/ui/AXIOM.webp">
+		<img class="imgFactionDeck" id="FactionDeckBR" src="asset/ui/BRAVOS.webp">
+		<img class="imgFactionDeck" id="FactionDeckLY" src="asset/ui/LYRA.webp">
+		<img class="imgFactionDeck" id="FactionDeckMU" src="asset/ui/MUNA.webp">
+		<img class="imgFactionDeck" id="FactionDeckOR" src="asset/ui/ORDIS.webp">
+		<img class="imgFactionDeck" id="FactionDeckYZ" src="asset/ui/YZMIR.webp">
+	</div>
 	<center><div class="deck_count"><label>le deck contient: </label><label id="count" value="0">0</label></center>
 	<div class="DECK">
 
@@ -155,9 +163,9 @@ echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</scri
 		<center><img class="imgHand" src="asset/ui/7.svg"></center>
 	</div>
 
-
 	</div>
 </div>
+
 </div>
 
 <script>
@@ -187,7 +195,12 @@ function swap_sealed(id,id_button) {
 	const new_text_button = document.createTextNode('Supprimer')
 	new_div.setAttribute('class','imgAdd')
 	new_div.setAttribute('id','DD'+id)
+	console.log((element.childNodes.length)-2)
+	 // if(element.childNodes.length-2 >= 2) {
+		  // new_div.setAttribute('style','top:-'+0.75*(element.childNodes.length-2)+'rem;position:relative;')
+	  // }
 	new_div.setAttribute('value',object_div.getAttribute('value'))
+	new_div.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
@@ -221,6 +234,7 @@ function swap_deck(id,id_button) {
 	new_div.setAttribute('class','imgAdd')
 	new_div.setAttribute('id','SD'+id)
 	new_div.setAttribute('value',object_div.getAttribute('value'))
+	new_div.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
@@ -244,7 +258,21 @@ function reload(value) {
 	container.innerHTML = newValue;
 
 }
+function test_faction() {
+	var countFactionDeck = {'AX':0,'BR':0,'LY':0,'MU':0,'OR':0,'YZ':0}
+	for (let h = 0; h <= 7; h++){
+		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
+			var CarteFaction = document.getElementById('hand'+h).childNodes[i].getAttribute('faction')
+			 countFactionDeck[CarteFaction] = countFactionDeck[CarteFaction]+1
+		}
+	}
+	if (countFactionDeck['AX'] <= 1) {
+		document.getElementById['FactionDeckAX'].setAttribute('style','filter: grayscale(0%)')
+	}
+	console.log(countFactionDeck)
+}
 function exporter(message) {
+	test_faction()
 	var message_txt = ''
 	for (let h = 0; h <= 7; h++){
 		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {

@@ -14,6 +14,18 @@ body {
   max-width: 500px;
   gap: .0rem .0rem;
 }
+.FACTION_DECK {
+  grid-template-columns: repeat(6,minmax(0,1fr));
+  margin-left: auto;
+  display: grid;
+  max-width: 500px;
+  gap: .0rem .0rem;
+}
+.imgFactionDeck {
+  width: 100%;
+  height: auto;
+  filter: grayscale(100%)
+}
 .imgFaction {
   width: 100%;
   height: auto;
