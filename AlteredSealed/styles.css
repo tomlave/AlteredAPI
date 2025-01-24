@@ -7,6 +7,114 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+.LandName {
+  font-size:1rem;
+  color: #49423a;
+  font-family: Chillax-Medium;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+hgroup{
+  margin-right:auto;
+}
+.LandValue {
+  font-size:1.5rem;
+  color: #49423a;
+  font-family: Chillax-Medium;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.imgAttributs{
+  min-width:2rem;
+  /* margin-left: 4rem; */
+  margin-top:auto;
+  
+}
+.FOREST {
+  background-color:#e2e1df;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  flex-grow: 1;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+  max-height:50%;
+}
+.MONTAGNE {
+  background-color:#e2e1df;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  flex-grow: 1;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+  max-height:50%;
+  max-weight:auto;
+}
+.OCEAN{
+  background-color:#e2e1df;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  flex-grow: 1;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+  max-height:50%;
+}
+.STASTISTIQUES{
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  margin-left: auto;
+  display: grid;
+  gap: .0rem .5rem;
+}
+.DECK_STATUE{
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  margin-left: auto;
+  display: grid;
+  gap: .0rem .0rem;
+}
+.STATUS {
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  margin-right: auto;
+  display: grid;
+  gap: .0rem .0rem;
+}
+.ButtonFiltre {
+  color: #49423a;
+  font-family: Chillax-Medium;
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: #d4af37;
+  border-bottom-right-radius: 16px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  border: 0 solid #e5e7eb;
+  display: flex;
+  margin-left: auto;
+}
 .FACTION {
   grid-template-columns: repeat(6,minmax(0,1fr));
   margin-right: auto;

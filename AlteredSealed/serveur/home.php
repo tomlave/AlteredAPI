@@ -15,7 +15,7 @@ function ShowFaction(AX,BR,LY,MU,OR,YZ) {
 <form action="." method="POST">
 	<input class="ButtonCarte" type="submit" name="close" value="Faire un tirage" />
 </form>
-
+<div class="STATUS">
 <div class="FACTION" id="FACTION">
 	<div id='FactionAX' class='FactionInfo'>
 		<center>
@@ -60,7 +60,14 @@ function ShowFaction(AX,BR,LY,MU,OR,YZ) {
 		</center>
 	</div>
 </div>
-
+<div>
+	<select class="ButtonFiltre" id="FiltreValue">
+		<option>Faction</option>
+		<option>Mana</option>
+		<option>Reserve</option>
+	</select>
+</div>
+</div>
 <div class="SEALED" id="SEALED">
 <?php
 
@@ -116,7 +123,7 @@ $YZ = 0;
 		if ($DraftJSON[$z][1] == 'YZ'){
 			$YZ = $YZ +1;
 		}
-	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
 	}
 echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 
@@ -127,6 +134,7 @@ echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</scri
 <div class="Window" >
 	<center><button class='ButtonCarte' onclick='exporter()'>Exporter</button></center>
 	</br>
+	<div class="DECK_STATUE">
 	<div class="FACTION_DECK">
 		<img class="imgFactionDeck" id="FactionDeckAX" src="asset/ui/AXIOM.webp">
 		<img class="imgFactionDeck" id="FactionDeckBR" src="asset/ui/BRAVOS.webp">
@@ -134,6 +142,30 @@ echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</scri
 		<img class="imgFactionDeck" id="FactionDeckMU" src="asset/ui/MUNA.webp">
 		<img class="imgFactionDeck" id="FactionDeckOR" src="asset/ui/ORDIS.webp">
 		<img class="imgFactionDeck" id="FactionDeckYZ" src="asset/ui/YZMIR.webp">
+	</div>
+	<div class="STASTISTIQUES">
+		<div class="FOREST">
+			<hgroup>
+				<span class="LandValue" id="ForestID">0</span>
+				<h6 class="LandName">Forêt</h6>
+			</hgroup>
+			<img class="imgAttributs" src="asset/ui/forest.svg">
+		</div>
+		<div class="MONTAGNE">
+			<hgroup>
+				<span class="LandValue" id="MountainID">0</span>
+				<h6 class="LandName">Montagne</h6>
+			</hgroup>
+			<img class="imgAttributs" src="asset/ui/mountain.svg">
+		</div>
+		<div class="OCEAN">
+			<hgroup>
+				<span class="LandValue" id="OceanID">0</span>
+				<h6 class="LandName">Ocean</h6>
+			</hgroup>
+			<img class="imgAttributs" src="asset/ui/water.svg">
+		</div>
+	</div>
 	</div>
 	<center><div class="deck_count"><label>le deck contient: </label><label id="count" value="0">0</label></center>
 	<div class="DECK">
@@ -201,6 +233,9 @@ function swap_sealed(id,id_button) {
 	  // }
 	new_div.setAttribute('value',object_div.getAttribute('value'))
 	new_div.setAttribute('faction',image.getAttribute('faction'))
+	new_div.setAttribute('forest',object_div.getAttribute('forest'))
+	new_div.setAttribute('mountain',object_div.getAttribute('mountain'))
+	new_div.setAttribute('ocean',object_div.getAttribute('ocean'))
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
@@ -217,6 +252,7 @@ function swap_sealed(id,id_button) {
 	object_div.remove()
 	reload(+1)
 	test_faction()
+	test_attribue()
 }
 function swap_deck(id,id_button) {
 	const object_div = document.getElementById("DD"+id)
@@ -236,6 +272,9 @@ function swap_deck(id,id_button) {
 	new_div.setAttribute('id','SD'+id)
 	new_div.setAttribute('value',object_div.getAttribute('value'))
 	new_div.setAttribute('faction',image.getAttribute('faction'))
+	new_div.setAttribute('forest',object_div.getAttribute('forest'))
+	new_div.setAttribute('mountain',object_div.getAttribute('mountain'))
+	new_div.setAttribute('ocean',object_div.getAttribute('ocean'))
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
@@ -252,6 +291,7 @@ function swap_deck(id,id_button) {
 	object_div.remove()
 	reload(-1)
 	test_faction()
+	test_attribue()
 }
 function reload(value) {
 	var container = document.getElementById("count");
@@ -259,6 +299,19 @@ function reload(value) {
 	container.setAttribute('value',newValue)
 	container.innerHTML = newValue;
 
+}
+function test_attribue() {
+	var countAttribueDeck = {'forest':0,'mountain':0,'ocean':0}
+	for (let h = 0; h <= 7; h++){
+		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
+			countAttribueDeck['forest'] = countAttribueDeck['forest']+parseInt(document.getElementById('hand'+h).childNodes[i].getAttribute('forest'))
+			countAttribueDeck['mountain'] = countAttribueDeck['mountain']+parseInt(document.getElementById('hand'+h).childNodes[i].getAttribute('mountain'))
+			countAttribueDeck['ocean'] = countAttribueDeck['ocean']+parseInt(document.getElementById('hand'+h).childNodes[i].getAttribute('ocean'))
+		}
+	}
+	document.getElementById('ForestID').innerHTML = countAttribueDeck['forest']
+	document.getElementById('MountainID').innerHTML = countAttribueDeck['mountain']
+	document.getElementById('OceanID').innerHTML = countAttribueDeck['ocean']
 }
 function test_faction() {
 	var countFactionDeck = {'AX':0,'BR':0,'LY':0,'MU':0,'OR':0,'YZ':0}
@@ -314,5 +367,5 @@ function exporter(message) {
 </script>
 
 <div class="scolling" id="vue_asset" onclick=shadow() style="display: none;">
-<center><img class="imageView" id="vue_carte" src="asset/TBF/TBF-004-F-FR.png"></center>
+<center><img class="imageView" id="vue_carte" src=""></center>
 </div>

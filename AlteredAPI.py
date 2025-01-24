@@ -71,9 +71,21 @@ for runPage in range(1,PAGE):
                 if DataRecall[0] == '#':
                     DataRecall = DataRecall[1]
                 # Variable de terrain
-                #DataName = (jsonFile['hydra:member'][runCarte]['elements']['OCEAN_POWER'])
-                #DataName = (jsonFile['hydra:member'][runCarte]['elements']['FOREST_POWER'])
-                #DataName = (jsonFile['hydra:member'][runCarte]['elements']['MOUNTAIN_POWER'])
+                if TypeCarte == 'Personnage':
+                    DataForest = (jsonFile['hydra:member'][runCarte]['elements']['FOREST_POWER'])
+                    DataMountain = (jsonFile['hydra:member'][runCarte]['elements']['MOUNTAIN_POWER'])
+                    DataOcean = (jsonFile['hydra:member'][runCarte]['elements']['OCEAN_POWER'])
+                    if DataForest[0] == '#':
+                        DataForest = DataForest[1]
+                    if DataMountain[0] == '#':
+                        DataMountain = DataMountain[1]
+                    if DataOcean[0] == '#':
+                        DataOcean = DataOcean[1]
+                else:
+                    DataForest = 0
+                    DataMountain = 0
+                    DataOcean = 0
+
 
                 # Lien de image png
                 LinkJPG = (jsonFile['hydra:member'][runCarte]['imagePath'])
@@ -82,16 +94,16 @@ for runPage in range(1,PAGE):
 
                 # Si carte hero ajouter à la variable d'export json pour hero
                 if TypeCarte == 'Héros':
-                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG])
+                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean])
 
                 # Si carte n'est pas hero ajouter à la variable d'export json pour les non hero
                 else:
                     # Si carte commune ajouter à la variable d'export json pour commune
                     if RarityJPG == 'COMMON':
-                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG])
+                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean])
                     # Si carte non commune ajouter à la variable d'export json pour carte rare et oof
                     else:
-                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG])
+                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean])
 
                 # Si lien image fonctionne télècharge les image
                 if responseJPG.status_code == 200:
