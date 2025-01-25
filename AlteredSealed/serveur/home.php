@@ -62,9 +62,9 @@ function ShowFaction(AX,BR,LY,MU,OR,YZ) {
 </div>
 <div>
 	<select class="ButtonFiltre" id="FiltreValue">
-		<option>Faction</option>
-		<option>Mana</option>
-		<option>Reserve</option>
+		<option value="div_value">Numero</option>
+		<option value="img_faction">Faction</option>
+		<option value="img_mana">Mana</option>
 	</select>
 </div>
 </div>
@@ -123,12 +123,11 @@ $YZ = 0;
 		if ($DraftJSON[$z][1] == 'YZ'){
 			$YZ = $YZ +1;
 		}
-	echo "<div class='imgAdd' id='SD".$z."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
 	}
-echo "<script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
+echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 
 ?>
-</div>
 </div>
 
 <div class="Window" >
@@ -352,6 +351,62 @@ function test_faction() {
 		document.getElementById('FactionDeckYZ').setAttribute('style','filter: grayscale(100%);')
 	}
 	// console.log(countFactionDeck)
+}
+document.getElementById("FiltreValue").onchange = filtre;
+function filtre() {
+	const SEALED = document.getElementById('SEALED')
+	var CountSealed = SEALED.childNodes.length-2
+	var Carte = {}
+	const AllCarte = []
+	for (let h = 0; h <= CountSealed+1; h++){
+		if (SEALED.childNodes[h].nodeType != 3) {
+			var div_id = SEALED.childNodes[h].getAttribute('id')
+			var div_value = SEALED.childNodes[h].getAttribute('value')
+			var div_faction = SEALED.childNodes[h].getAttribute('faction')
+			var div_forest = SEALED.childNodes[h].getAttribute('forest')
+			var div_mountain = SEALED.childNodes[h].getAttribute('mountain')
+			var div_ocean = SEALED.childNodes[h].getAttribute('ocean')
+			var img_onclick = (SEALED.childNodes[h].childNodes[0].getAttribute('onclick'))
+			var img_id = (SEALED.childNodes[h].childNodes[0].getAttribute('id'))
+			var img_faction = (SEALED.childNodes[h].childNodes[0].getAttribute('faction'))
+			var img_mana = (SEALED.childNodes[h].childNodes[0].getAttribute('mana'))
+			var img_src = (SEALED.childNodes[h].childNodes[0].getAttribute('src'))
+			var but_id = SEALED.childNodes[h].childNodes[1].getAttribute('id')
+			var but_onclick = SEALED.childNodes[h].childNodes[1].getAttribute('onclick')
+			Carte = {div_id,div_value,div_faction,div_forest,div_mountain,div_ocean,img_onclick,img_id,img_faction,img_mana,img_src,but_id,but_onclick}
+			AllCarte.push(Carte)
+		}
+	}
+
+	var ValueFiltre = (document.getElementById("FiltreValue").value)
+	AllCarte.sort((a, b) => (a[ValueFiltre] > b[ValueFiltre]) ? 1 : ((b[ValueFiltre] > a[ValueFiltre]) ? -1 : 0))
+	for (let h = 0; h <= AllCarte.length-1; h++){
+		document.getElementById(AllCarte[h]['div_id']).remove()
+		const new_div = document.createElement('div')
+		const new_img = document.createElement('img')
+		const new_button = document.createElement('button')
+		const new_text_button = document.createTextNode('Ajouter')
+		new_div.setAttribute('class','imgAdd')
+		new_div.setAttribute('id',AllCarte[h]['div_id'])
+		new_div.setAttribute('value',AllCarte[h]['div_value'])
+		new_div.setAttribute('faction',AllCarte[h]['div_faction'])
+		new_div.setAttribute('forest',AllCarte[h]['div_forest'])
+		new_div.setAttribute('mountain',AllCarte[h]['div_mountain'])
+		new_div.setAttribute('ocean',AllCarte[h]['div_ocean'])
+		new_img.setAttribute('class','carte')
+		new_img.setAttribute('faction',AllCarte[h]['img_faction'])
+		new_img.setAttribute('mana',AllCarte[h]['img_mana'])
+		new_img.setAttribute('id',AllCarte[h]['img_id'])
+		new_img.setAttribute('onclick',AllCarte[h]['img_onclick'])
+		new_img.setAttribute('src',AllCarte[h]['img_src'])
+		new_button.setAttribute('onclick',AllCarte[h]['but_onclick'])
+		new_button.setAttribute('class','ButtonCarte')
+		new_button.setAttribute('id',AllCarte[h]['but_id'])
+		new_button.appendChild(new_text_button)
+		new_div.appendChild(new_img)
+		new_div.appendChild(new_button)
+		SEALED.insertBefore(new_div,SEALED.childNodes[h])
+	}
 }
 function exporter(message) {
 	var message_txt = ''
