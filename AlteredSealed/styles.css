@@ -209,6 +209,13 @@ hgroup{
 	padding:5px;
 	width:30%;
 }
+p {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  margin-left: 0rem;
+  margin-right: 0rem;
+  font-size: 1rem;
+}
 .ButtonCarte {
   top:-1.25rem;
   position:relative;
@@ -222,7 +229,6 @@ hgroup{
   color: rgb(255 245 234);
   background-color: rgb(30 32 54);
   border-color: rgb(30 32 54);
-  font-size: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
 }

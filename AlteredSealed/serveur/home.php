@@ -123,7 +123,7 @@ $YZ = 0;
 		if ($DraftJSON[$z][1] == 'YZ'){
 			$YZ = $YZ +1;
 		}
-	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")>Ajouter</button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
 	}
 echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 
@@ -252,6 +252,7 @@ function swap_sealed(id,id_button) {
 	reload(+1)
 	test_faction()
 	test_attribue()
+	session_send(id,id_button)
 }
 function swap_deck(id,id_button) {
 	const object_div = document.getElementById("DD"+id)
@@ -291,6 +292,7 @@ function swap_deck(id,id_button) {
 	reload(-1)
 	test_faction()
 	test_attribue()
+	session_undo(id,id_button)
 }
 function reload(value) {
 	var container = document.getElementById("count");
@@ -298,6 +300,33 @@ function reload(value) {
 	container.setAttribute('value',newValue)
 	container.innerHTML = newValue;
 
+}
+function session_send(id,id_button) {
+	var DeckSession = sessionStorage.getItem("DECK").split(",")
+	if (DeckSession == "") {
+		sessionStorage.setItem("DECK",[id,id_button])
+	} else {
+		sessionStorage.setItem("DECK",DeckSession+","+[id,id_button])
+	}
+	console.log(sessionStorage.getItem("DECK").split(","))
+}
+
+function session_undo(id,id_button) {
+	var DeckSession = sessionStorage.getItem("DECK").split(",")
+	var DECK = chunk(DeckSession,2)
+	for (i = 0; i < DECK.length ;i++ ) {
+		if(id == DECK[i][0]) {
+			DECK.splice(i,1)
+		}
+	}
+	sessionStorage.setItem("DECK",DECK)
+}
+function chunk(arr, chunkSize) {
+  if (chunkSize <= 0) throw "Invalid chunk size";
+  var R = [];
+  for (var i=0,len=arr.length; i<len; i+=chunkSize)
+    R.push(arr.slice(i,i+chunkSize));
+  return R;
 }
 function test_attribue() {
 	var countAttribueDeck = {'forest':0,'mountain':0,'ocean':0}
