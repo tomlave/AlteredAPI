@@ -62,9 +62,12 @@ function ShowFaction(AX,BR,LY,MU,OR,YZ) {
 </div>
 <div>
 	<select class="ButtonFiltre" id="FiltreValue">
-		<option value="div_value">Numero</option>
+		<option value="div_value">Par défaut</option>
 		<option value="img_faction">Faction</option>
-		<option value="img_mana">Mana</option>
+		<option value="img_mana,asc">Mana asc</option>
+		<option value="img_mana,desc">Mana desc</option>
+		<option value="img_reserve,asc">Réserve asc</option>
+		<option value="img_reserve,desc">Réserve desc</option>
 	</select>
 </div>
 </div>
@@ -123,7 +126,7 @@ $YZ = 0;
 		if ($DraftJSON[$z][1] == 'YZ'){
 			$YZ = $YZ +1;
 		}
-	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' reserve='".$DraftJSON[$z][4]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
 	}
 echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 
@@ -234,6 +237,7 @@ function swap_sealed(id,id_button) {
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
+	new_img.setAttribute('reserve',image.getAttribute('reserve'))
 	new_img.setAttribute('id',"D"+id)
 	new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')
 	new_img.setAttribute('src',image.getAttribute('src'))
@@ -274,6 +278,7 @@ function swap_deck(id,id_button) {
 	new_img.setAttribute('class','carte')
 	new_img.setAttribute('faction',image.getAttribute('faction'))
 	new_img.setAttribute('mana',mana)
+	new_img.setAttribute('reserve',image.getAttribute('reserve'))
 	new_img.setAttribute('id',"S"+id)
 	new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')
 	new_img.setAttribute('src',image.getAttribute('src'))
@@ -331,6 +336,7 @@ function session_load() {
 				new_img.setAttribute('class','carte')
 				new_img.setAttribute('faction',image.getAttribute('faction'))
 				new_img.setAttribute('mana',mana)
+				new_img.setAttribute('reserve',image.getAttribute('reserve'))
 				new_img.setAttribute('id',"D"+id)
 				new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')
 				new_img.setAttribute('src',image.getAttribute('src'))
@@ -447,16 +453,27 @@ function filtre() {
 			var img_id = (SEALED.childNodes[h].childNodes[0].getAttribute('id'))
 			var img_faction = (SEALED.childNodes[h].childNodes[0].getAttribute('faction'))
 			var img_mana = (SEALED.childNodes[h].childNodes[0].getAttribute('mana'))
+			var img_reserve = (SEALED.childNodes[h].childNodes[0].getAttribute('reserve'))
 			var img_src = (SEALED.childNodes[h].childNodes[0].getAttribute('src'))
 			var but_id = SEALED.childNodes[h].childNodes[1].getAttribute('id')
 			var but_onclick = SEALED.childNodes[h].childNodes[1].getAttribute('onclick')
-			Carte = {div_id,div_value,div_faction,div_forest,div_mountain,div_ocean,img_onclick,img_id,img_faction,img_mana,img_src,but_id,but_onclick}
+			Carte = {div_id,div_value,div_faction,div_forest,div_mountain,div_ocean,img_onclick,img_id,img_faction,img_mana,img_reserve,img_src,but_id,but_onclick}
 			AllCarte.push(Carte)
 		}
 	}
 
 	var ValueFiltre = (document.getElementById("FiltreValue").value)
-	AllCarte.sort((a, b) => (a[ValueFiltre] > b[ValueFiltre]) ? 1 : ((b[ValueFiltre] > a[ValueFiltre]) ? -1 : 0))
+	if ((ValueFiltre.split(",")).length <= 2) {
+		var sortType = ValueFiltre.split(",")[1]
+		ValueFiltre = ValueFiltre.split(",")[0]
+		if (sortType == "desc") {
+			AllCarte.sort((a, b) => (a[ValueFiltre] < b[ValueFiltre]) ? 1 : ((b[ValueFiltre] < a[ValueFiltre]) ? -1 : 0))
+		} else {
+			AllCarte.sort((a, b) => (a[ValueFiltre] > b[ValueFiltre]) ? 1 : ((b[ValueFiltre] > a[ValueFiltre]) ? -1 : 0))
+		}
+	} else {
+		AllCarte.sort((a, b) => (a[ValueFiltre] > b[ValueFiltre]) ? 1 : ((b[ValueFiltre] > a[ValueFiltre]) ? -1 : 0))
+	}
 	for (let h = 0; h <= AllCarte.length-1; h++){
 		document.getElementById(AllCarte[h]['div_id']).remove()
 		const new_div = document.createElement('div')
@@ -473,6 +490,7 @@ function filtre() {
 		new_img.setAttribute('class','carte')
 		new_img.setAttribute('faction',AllCarte[h]['img_faction'])
 		new_img.setAttribute('mana',AllCarte[h]['img_mana'])
+		new_img.setAttribute('reserve',AllCarte[h]['img_reserve'])
 		new_img.setAttribute('id',AllCarte[h]['img_id'])
 		new_img.setAttribute('onclick',AllCarte[h]['img_onclick'])
 		new_img.setAttribute('src',AllCarte[h]['img_src'])
