@@ -1,8 +1,9 @@
 # AlteredAPI
 
 ## Interface V1:
-![image](https://github.com/user-attachments/assets/cabae66f-1f9b-4e91-99ac-b1863431802c)
-![image](https://github.com/user-attachments/assets/86fc86ef-a360-4c77-8bec-766590e77e7c)
+![image](https://github.com/user-attachments/assets/5837785d-ade8-4d15-92b9-d4cebc4dc2fd)
+![image](https://github.com/user-attachments/assets/40b69d81-c5d5-4e3d-ab50-ff09bc0e0d6f)
+
 
 
 ---
@@ -31,7 +32,7 @@ Basé sur le service Apache
 
 ### Langage utilisé
 
-- PHP
+- PHP 8.2.20
 - HTML
 - JavaScript
 - CSS
