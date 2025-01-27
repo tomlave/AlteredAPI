@@ -28,7 +28,6 @@ JSON_CARDS_RARE = []
 
 #Debut du script - boucle sur le nombre de PAGE
 for runPage in range(1,PAGE):
-
     #Appel l'API
     response = requests.get(API_URL+'?cardSet[]='+SETNAME+'&ItemPerPage='+str(ItemPerPage)+'&page='+str(runPage), headers=headers)
 
@@ -48,9 +47,8 @@ for runPage in range(1,PAGE):
                 # si erreur case la boucle
                 break
 
-            # exclue les jeton
-            if TypeCarte != 'Jeton Personnage':
-
+            # exclue les jeton/foiler/mana orbe
+            if (TypeCarte != 'Jeton Personnage' and TypeCarte != 'Foiler' and TypeCarte != 'Mana'):
                 # Place tout les info de la carte dans des variable
                 # Numero de la carte
                 NameJPG = (jsonFile['hydra:member'][runCarte]['collectorNumberFormatted'])
@@ -94,16 +92,16 @@ for runPage in range(1,PAGE):
 
                 # Si carte hero ajouter à la variable d'export json pour hero
                 if TypeCarte == 'Héros':
-                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean])
+                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte])
 
                 # Si carte n'est pas hero ajouter à la variable d'export json pour les non hero
                 else:
                     # Si carte commune ajouter à la variable d'export json pour commune
                     if RarityJPG == 'COMMON':
-                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean])
+                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte])
                     # Si carte non commune ajouter à la variable d'export json pour carte rare et oof
                     else:
-                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean])
+                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte])
 
                 # Si lien image fonctionne télècharge les image
                 if responseJPG.status_code == 200:
@@ -123,3 +121,4 @@ with open(SAVE_PATH_JSON+"common.json", 'w') as c:
 with open(SAVE_PATH_JSON+"rare.json", 'w') as r:
     # Formatage et mise dans le json
     json.dump(JSON_CARDS_RARE,r)
+print("END")

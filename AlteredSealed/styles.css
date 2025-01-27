@@ -14,7 +14,7 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   margin-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 2.5rem;
 }
 hgroup{
   margin-right:auto;
@@ -142,7 +142,7 @@ hgroup{
   font-family: Chillax-Medium;
   font-weight: bold;
   font-size:40px;
-  top:-10.25rem;
+  top:-9rem;
   position:relative;
   color: rgb(231, 233, 235);
 }

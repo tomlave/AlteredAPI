@@ -226,10 +226,6 @@ function swap_sealed(id,id_button) {
 	const new_text_button = document.createTextNode('Supprimer')
 	new_div.setAttribute('class','imgAdd')
 	new_div.setAttribute('id','DD'+id)
-	// console.log((element.childNodes.length)-2)
-	 // if(element.childNodes.length-2 >= 2) {
-		  // new_div.setAttribute('style','top:-'+0.75*(element.childNodes.length-2)+'rem;position:relative;')
-	  // }
 	new_div.setAttribute('value',object_div.getAttribute('value'))
 	new_div.setAttribute('faction',image.getAttribute('faction'))
 	new_div.setAttribute('forest',object_div.getAttribute('forest'))
@@ -299,7 +295,59 @@ function reload(value) {
 	var newValue = parseInt(container.getAttribute('value'))+parseInt(value)
 	container.setAttribute('value',newValue)
 	container.innerHTML = newValue;
-
+}
+session_load()
+function session_load() {
+	if (sessionStorage.getItem("DECK") == null) {
+		sessionStorage.DECK = []
+	} else {
+		var DeckSession = sessionStorage.getItem("DECK").split(",")
+		var DECK = chunk(DeckSession,2)
+		for (i = 0; i < DECK.length ;i++ ) {
+			if (DECK[i][0] !== ""){
+				var id = DECK[i][0]
+				var id_button = DECK[i][1]
+				console.log()
+				const object_div = document.getElementById("SD"+id)
+				const image = document.getElementById("S"+id)
+				const faction = document.getElementById("Count"+image.getAttribute('faction'))
+				faction.innerHTML = parseInt(faction.innerHTML)-1
+				var mana = image.getAttribute('mana')
+				if (mana >= 7) {
+					mana = '7'
+				}
+				const element = document.getElementById("hand"+mana)
+				const new_div = document.createElement('div')
+				const new_img = document.createElement('img')
+				const new_button = document.createElement('button')
+				const new_text_button = document.createTextNode('Supprimer')
+				new_div.setAttribute('class','imgAdd')
+				new_div.setAttribute('id','DD'+id)
+				new_div.setAttribute('value',object_div.getAttribute('value'))
+				new_div.setAttribute('faction',image.getAttribute('faction'))
+				new_div.setAttribute('forest',object_div.getAttribute('forest'))
+				new_div.setAttribute('mountain',object_div.getAttribute('mountain'))
+				new_div.setAttribute('ocean',object_div.getAttribute('ocean'))
+				new_img.setAttribute('class','carte')
+				new_img.setAttribute('faction',image.getAttribute('faction'))
+				new_img.setAttribute('mana',mana)
+				new_img.setAttribute('id',"D"+id)
+				new_img.setAttribute('onclick','display("'+image.getAttribute('src')+'")')
+				new_img.setAttribute('src',image.getAttribute('src'))
+				new_button.setAttribute('onclick','swap_deck('+id+','+id_button+')')
+				new_button.setAttribute('class','ButtonCarte')
+				new_button.setAttribute('id','DB'+id_button)
+				new_button.appendChild(new_text_button)
+				new_div.appendChild(new_img)
+				new_div.appendChild(new_button)
+				element.appendChild(new_div)
+				object_div.remove()
+				reload(+1)
+				test_faction()
+				test_attribue()
+			}
+		}
+	}
 }
 function session_send(id,id_button) {
 	var DeckSession = sessionStorage.getItem("DECK").split(",")
