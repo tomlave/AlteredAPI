@@ -510,11 +510,18 @@ function exporter(message) {
 	for (let h = 0; h <= 7; h++){
 		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
 			var deckList = document.getElementById('hand'+h).childNodes[i].getAttribute('value')
-			DeckTeck.push(1,deckList)
+			DeckTeck.push(deckList,1)
 		}
 	}
-	// DeckTeck.forEach(function(i) { ExportDeck[i] = [((ExportDeck[i]||0) + 1)];})
-	// console.log(ExportDeck)
+	DeckTeck.sort()
+
+	// TESTING SECTION
+	// const DeckOutput = DeckTeck.reduce((prevValue, [name, value]) => {prevValue[name] ? prevValue[name].push(value) : (prevValue[name] = [value]);return prevValue;}, {});
+	// console.log(DeckOutput)
+	// Object.entries(DeckOutput).forEach(([name, arr]) => {
+		// document.write(`${name} = ${arr.join(",")} = ${arr.length}<br>`);
+	// })
+
 	for (let h = 0; h <= DeckTeck.length-1; h++) {
 		message_txt = message_txt+'\n 'DeckTeck[h][0]+" "+DeckTeck[h][1]
 	}
