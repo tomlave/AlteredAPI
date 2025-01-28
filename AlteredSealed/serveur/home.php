@@ -126,7 +126,7 @@ $YZ = 0;
 		if ($DraftJSON[$z][1] == 'YZ'){
 			$YZ = $YZ +1;
 		}
-	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][0]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' reserve='".$DraftJSON[$z][4]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][5]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' reserve='".$DraftJSON[$z][4]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
 	}
 echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 
@@ -505,11 +505,18 @@ function filtre() {
 }
 function exporter(message) {
 	var message_txt = ''
+	const DeckTeck = []
+	// const ExportDeck = []
 	for (let h = 0; h <= 7; h++){
 		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
 			var deckList = document.getElementById('hand'+h).childNodes[i].getAttribute('value')
-			 message_txt = message_txt+'\n 1 '+deckList
+			DeckTeck.push(1,deckList)
 		}
+	}
+	// DeckTeck.forEach(function(i) { ExportDeck[i] = [((ExportDeck[i]||0) + 1)];})
+	// console.log(ExportDeck)
+	for (let h = 0; h <= DeckTeck.length-1; h++) {
+		message_txt = message_txt+'\n 'DeckTeck[h][0]+" "+DeckTeck[h][1]
 	}
 	alert(message_txt);
 }
