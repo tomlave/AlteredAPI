@@ -13,7 +13,7 @@ function ShowFaction(AX,BR,LY,MU,OR,YZ) {
 <div class="Window">
 
 <form action="." method="POST">
-	<input class="ButtonCarte" type="submit" name="close" value="Faire un tirage" />
+	<input class="ButtonCarte" style="top:0rem;" type="submit" name="close" value="Faire un tirage" />
 </form>
 <div class="STATUS">
 <div class="FACTION" id="FACTION">
@@ -82,51 +82,51 @@ $HEROS = json_decode($jsonHEROS,true);
 $CARTE_COMMON = json_decode($jsonCOMMON,true);
 $CARTE_RARE = json_decode($jsonRARE,true);
 
-if(isset($_SESSION["json"])) {
-	$DraftJSON = $_SESSION["json"];
+if(isset($_SESSION["jsonSealed"])) {
+	$SealedJSON = $_SESSION["jsonSealed"];
  } else {
-$DraftJSON = array();
+$SealedJSON = array();
 
 for ($y = 1; $y <= 7; $y++) {
 	for ($x = 1; $x <= 9; $x++) {
 		shuffle($CARTE_COMMON);
-		$DraftJSON[] = $CARTE_COMMON[0];
+		$SealedJSON[] = $CARTE_COMMON[0];
 	}
 	for ($x = 1; $x <= 3; $x++) {
 		shuffle($CARTE_RARE);
-		$DraftJSON[] = $CARTE_RARE[0];
+		$SealedJSON[] = $CARTE_RARE[0];
 	}
 	shuffle($HEROS);
-	$DraftJSON[] = $HEROS[0];
+	$SealedJSON[] = $HEROS[0];
 }}
-sort($DraftJSON);
-$_SESSION["json"] = $DraftJSON;
+sort($SealedJSON);
+$_SESSION["jsonSealed"] = $SealedJSON;
 $AX = 0;
 $BR = 0;
 $LY = 0;
 $MU = 0;
 $OR = 0;
 $YZ = 0;
-	for ($z = 0;$z <= count($DraftJSON)-1;$z++){
-		if ($DraftJSON[$z][1] == 'AX'){
+	for ($z = 0;$z <= count($SealedJSON)-1;$z++){
+		if ($SealedJSON[$z][1] == 'AX'){
 			$AX = $AX+1;
 		}
-		if ($DraftJSON[$z][1] == 'BR'){
+		if ($SealedJSON[$z][1] == 'BR'){
 			$BR = $BR+1;
 		}
-		if ($DraftJSON[$z][1] == 'LY'){
+		if ($SealedJSON[$z][1] == 'LY'){
 			$LY = $LY+1;
 		}
-		if ($DraftJSON[$z][1] == 'MU'){
+		if ($SealedJSON[$z][1] == 'MU'){
 			$MU = $MU+1;
 		}
-		if ($DraftJSON[$z][1] == 'OR'){
+		if ($SealedJSON[$z][1] == 'OR'){
 			$OR = $OR+1;
 		}
-		if ($DraftJSON[$z][1] == 'YZ'){
+		if ($SealedJSON[$z][1] == 'YZ'){
 			$YZ = $YZ +1;
 		}
-	echo "<div class='imgAdd' id='SD".$z."' faction='".$DraftJSON[$z][1]."' value='".$DraftJSON[$z][5]."' forest='".$DraftJSON[$z][6]."' mountain='".$DraftJSON[$z][7]."' ocean='".$DraftJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$DraftJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$DraftJSON[$z][1]."' mana='".$DraftJSON[$z][3]."' reserve='".$DraftJSON[$z][4]."' src='asset/TBF/".$DraftJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' faction='".$SealedJSON[$z][1]."' value='".$SealedJSON[$z][5]."' forest='".$SealedJSON[$z][6]."' mountain='".$SealedJSON[$z][7]."' ocean='".$SealedJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$SealedJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$SealedJSON[$z][1]."' mana='".$SealedJSON[$z][3]."' reserve='".$SealedJSON[$z][4]."' src='asset/TBF/".$SealedJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
 	}
 echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 
@@ -134,7 +134,10 @@ echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")
 </div>
 
 <div class="Window" >
-	<center><button class='ButtonCarte' onclick='exporter()'>Exporter</button></center>
+	<center>
+		<button class='ButtonUI' onclick='exporter()'>Exporter</button>
+		<button class='ButtonUI' onclick='playdeck()'>Tester le deck</button>
+	</center>
 	</br>
 	<div class="DECK_STATUE">
 	<div class="FACTION_DECK">
@@ -203,6 +206,35 @@ echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")
 </div>
 
 <script>
+function playdeck() {
+	var escape = '%0A'
+	var espace = '%20'
+	var deck_test = ""
+	const DeckTeck = []
+	// const ExportDeck = []
+	for (let h = 0; h <= 7; h++){
+		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
+			var deckList = document.getElementById('hand'+h).childNodes[i].getAttribute('value')
+			DeckTeck.push([deckList,1])
+		}
+	}
+	DeckTeck.sort()
+
+	// TESTING SECTION
+	for (var i = 0; i < DeckTeck.length; i = i + count) {
+		count = 1;
+		test = [];
+		test.push(DeckTeck[i][0]);
+		for (var j = i + 1; j < DeckTeck.length; j++) {
+			if (DeckTeck[i][0] === DeckTeck[j][0]){
+				count++;
+				test.push(DeckTeck[j][1]);
+			}
+		}
+		deck_test = deck_test+escape+count+espace+DeckTeck[i][0]
+	}
+	window.open('https://exalts-table.com/deck-test/link/?decklist='+deck_test)
+}
 function display(asset) {
 	const vue_carte = document.getElementById("vue_carte")
 	const vue_asset = document.getElementById("vue_asset")
@@ -312,7 +344,6 @@ function session_load() {
 			if (DECK[i][0] !== ""){
 				var id = DECK[i][0]
 				var id_button = DECK[i][1]
-				console.log()
 				const object_div = document.getElementById("SD"+id)
 				const image = document.getElementById("S"+id)
 				const faction = document.getElementById("Count"+image.getAttribute('faction'))
@@ -362,7 +393,6 @@ function session_send(id,id_button) {
 	} else {
 		sessionStorage.setItem("DECK",DeckSession+","+[id,id_button])
 	}
-	console.log(sessionStorage.getItem("DECK").split(","))
 }
 
 function session_undo(id,id_button) {
@@ -510,20 +540,23 @@ function exporter(message) {
 	for (let h = 0; h <= 7; h++){
 		for (let i = 3; i < document.getElementById('hand'+h).childNodes.length; i++) {
 			var deckList = document.getElementById('hand'+h).childNodes[i].getAttribute('value')
-			DeckTeck.push(deckList,1)
+			DeckTeck.push([deckList,1])
 		}
 	}
 	DeckTeck.sort()
 
 	// TESTING SECTION
-	// const DeckOutput = DeckTeck.reduce((prevValue, [name, value]) => {prevValue[name] ? prevValue[name].push(value) : (prevValue[name] = [value]);return prevValue;}, {});
-	// console.log(DeckOutput)
-	// Object.entries(DeckOutput).forEach(([name, arr]) => {
-		// document.write(`${name} = ${arr.join(",")} = ${arr.length}<br>`);
-	// })
-
-	for (let h = 0; h <= DeckTeck.length-1; h++) {
-		message_txt = message_txt+'\n 'DeckTeck[h][0]+" "+DeckTeck[h][1]
+	for (var i = 0; i < DeckTeck.length; i = i + count) {
+		count = 1;
+		test = [];
+		test.push(DeckTeck[i][0]);
+		for (var j = i + 1; j < DeckTeck.length; j++) {
+			if (DeckTeck[i][0] === DeckTeck[j][0]){
+				count++;
+				test.push(DeckTeck[j][1]);
+			}
+		}
+		message_txt = message_txt+'\n'+count+" "+DeckTeck[i][0]
 	}
 	alert(message_txt);
 }

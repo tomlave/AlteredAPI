@@ -97,6 +97,8 @@ hgroup{
   gap: .0rem .0rem;
 }
 .ButtonFiltre {
+  top:1rem;
+  position:relative;
   color: #49423a;
   font-family: Chillax-Medium;
   padding-top: .75rem;
@@ -130,7 +132,10 @@ hgroup{
   gap: .0rem .0rem;
 }
 .imgFactionDeck {
-  width: 100%;
+  top:-1.25rem;
+  left:.50rem;
+  position:relative;
+  width: 80%;
   height: auto;
   filter: grayscale(100%);
 }
@@ -215,6 +220,32 @@ p {
   margin-left: 0rem;
   margin-right: 0rem;
   font-size: 1rem;
+}
+.ButtonStartUI {
+  font-family: Chillax-Medium;
+  font-weight: bold;
+  border: 0 solid #e5e7eb;
+  border-radius: .25rem;
+  border-width: 4px;
+  cursor: pointer;
+  color: rgb(255 245 234);
+  background-color: rgb(30 32 54);
+  border-color: rgb(30 32 54);
+  width: 50%;
+  margin:1vh;
+  height: 47vh;
+}
+.ButtonUI {
+  font-family: Chillax-Medium;
+  font-weight: bold;
+  border: 0 solid #e5e7eb;
+  border-radius: .25rem;
+  border-width: 4px;
+  cursor: pointer;
+  color: rgb(255 245 234);
+  background-color: rgb(30 32 54);
+  border-color: rgb(30 32 54);
+  min-width: 49%;
 }
 .ButtonCarte {
   top:-1.25rem;

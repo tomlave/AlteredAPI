@@ -5,7 +5,7 @@ ini_set("display_errors", 0);
 session_start();
 $id = session_id();
 if($_POST['close'] == 'Faire un tirage') {
-	unset($_SESSION["json"]);
+	unset($_SESSION["jsonSealed"]);
 	echo "<script>sessionStorage.DECK = []</script>";
 }
 // if(isset($_SESSION["json"])){
