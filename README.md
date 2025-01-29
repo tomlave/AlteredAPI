@@ -1,8 +1,9 @@
 # AlteredAPI
 
 ## Interface V1.4:
-![image](https://github.com/user-attachments/assets/5837785d-ade8-4d15-92b9-d4cebc4dc2fd)
-![image](https://github.com/user-attachments/assets/40b69d81-c5d5-4e3d-ab50-ff09bc0e0d6f)
+![image](https://github.com/user-attachments/assets/336ee629-97c5-43a4-bd85-2e9ca36a6739)
+![image](https://github.com/user-attachments/assets/7ff4115d-4479-4812-af84-acc1da0733fa)
+
 
 
 
