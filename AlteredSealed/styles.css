@@ -168,9 +168,13 @@ hgroup{
   height: auto;
   cursor: pointer;
   position:relative;
+  border-radius: 0.5rem;
+  border-width: 4px;
 }
 
 .SEALED {
+  top:-2.5rem;
+  position:relative;
   border: 0 solid #e5e7eb;
   box-sizing: border-box;
   padding: 0.5rem;
@@ -267,6 +271,8 @@ p {
 .imageView {
   width:25%;
   position:relative;
+  border-radius: 1rem;
+  border-width: 4px;
 }
 .scolling {
   position:sticky;

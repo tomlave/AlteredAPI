@@ -8,19 +8,20 @@ from config import (
   API_URL,
   SAVE_PATH_IMG,
   SAVE_PATH_JSON,
-  SETNAME,
+  SETCODE,
   ItemPerPage,
   PAGE,
-  headers
+  headers,
+  DOWNLOAD_PNG
 )
 
 #Crée le chemin d'export
 try:
-    os.makedirs(SAVE_PATH_IMG)
-    os.makedirs(SAVE_PATH_JSON)
+    if DOWNLOAD_PNG:
+        os.makedirs(SAVE_PATH_IMG)
+        os.makedirs(SAVE_PATH_JSON)
 except :
     pass
-
 
 JSON_HEROS = []
 JSON_CARDS_COMMON = []
@@ -29,7 +30,7 @@ JSON_CARDS_RARE = []
 #Debut du script - boucle sur le nombre de PAGE
 for runPage in range(1,PAGE):
     #Appel l'API
-    response = requests.get(API_URL+'?cardSet[]='+SETNAME+'&ItemPerPage='+str(ItemPerPage)+'&page='+str(runPage), headers=headers)
+    response = requests.get(API_URL+'?cardSet[]='+SETCODE+'&ItemPerPage='+str(ItemPerPage)+'&page='+str(runPage), headers=headers)
 
     #Verifies si la connection à reussi
     if response.status_code == 200:
@@ -45,6 +46,7 @@ for runPage in range(1,PAGE):
                 TypeCarte = (jsonFile['hydra:member'][runCarte]['cardType']['name'])
             except:
                 # si erreur case la boucle
+                print('break')
                 break
 
             # exclue les jeton/foiler/mana orbe
@@ -92,21 +94,23 @@ for runPage in range(1,PAGE):
 
                 # Si carte hero ajouter à la variable d'export json pour hero
                 if TypeCarte == 'Héros':
-                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte])
+                    JSON_HEROS.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte,LinkJPG])
 
                 # Si carte n'est pas hero ajouter à la variable d'export json pour les non hero
                 else:
                     # Si carte commune ajouter à la variable d'export json pour commune
                     if RarityJPG == 'COMMON':
-                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte])
+                        print(NameJPG)
+                        JSON_CARDS_COMMON.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte,LinkJPG])
                     # Si carte non commune ajouter à la variable d'export json pour carte rare et oof
                     else:
-                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte])
+                        JSON_CARDS_RARE.append([NameJPG,DataFaction,DataName,DataMain,DataRecall,ReferenceJPG,DataForest,DataMountain,DataOcean,TypeCarte,LinkJPG])
 
+                if DOWNLOAD_PNG:
                 # Si lien image fonctionne télècharge les image
-                if responseJPG.status_code == 200:
-                    with open(SAVE_PATH_IMG+NameJPG+".png", 'wb') as f:
-                        f.write(responseJPG.content)
+                    if responseJPG.status_code == 200:
+                        with open(SAVE_PATH_IMG+NameJPG+".png", 'wb') as f:
+                            f.write(responseJPG.content)
 
             #ici fin de la boucle carte pass a la suivante de la page
     #ici fin de la boucle page pass a la suivante ou fin de script

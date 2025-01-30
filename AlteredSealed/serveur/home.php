@@ -13,6 +13,10 @@ function ShowFaction(AX,BR,LY,MU,OR,YZ) {
 <div class="Window">
 
 <form action="." method="POST">
+	<select id='SelectSET' class="ButtonCarte" name="SetSET">
+		<option value="TBF">L'Epreuve du Froid</option>
+		<option value="BTG">Au-delà des portes</option>
+	</select>
 	<input class="ButtonCarte" style="top:0rem;" type="submit" name="close" value="Faire un tirage" />
 </form>
 <div class="STATUS">
@@ -74,18 +78,28 @@ function ShowFaction(AX,BR,LY,MU,OR,YZ) {
 <div class="SEALED" id="SEALED">
 <?php
 
-$jsonHEROS = file_get_contents('./asset/heros.json');
-$jsonCOMMON = file_get_contents('./asset/common.json');
-$jsonRARE = file_get_contents('./asset/rare.json');
-
-$HEROS = json_decode($jsonHEROS,true);
-$CARTE_COMMON = json_decode($jsonCOMMON,true);
-$CARTE_RARE = json_decode($jsonRARE,true);
-
+if(isset($_SESSION["SetSET"])) {
+	$SET = $_SESSION['SetSET'];
+} else {
+	if(isset($_POST['SetSET'])){
+		$SET = $_POST['SetSET'];
+	} else {
+		$SET = 'TBF';
+	}
+	$_SESSION['SetSET'] = $SET;
+}
 if(isset($_SESSION["jsonSealed"])) {
 	$SealedJSON = $_SESSION["jsonSealed"];
  } else {
 $SealedJSON = array();
+
+$jsonHEROS = file_get_contents('./asset/'.$SET.'heros.json');
+$jsonCOMMON = file_get_contents('./asset/'.$SET.'common.json');
+$jsonRARE = file_get_contents('./asset/'.$SET.'rare.json');
+
+$HEROS = json_decode($jsonHEROS,true);
+$CARTE_COMMON = json_decode($jsonCOMMON,true);
+$CARTE_RARE = json_decode($jsonRARE,true);
 
 for ($y = 1; $y <= 7; $y++) {
 	for ($x = 1; $x <= 9; $x++) {
@@ -126,7 +140,7 @@ $YZ = 0;
 		if ($SealedJSON[$z][1] == 'YZ'){
 			$YZ = $YZ +1;
 		}
-	echo "<div class='imgAdd' id='SD".$z."' faction='".$SealedJSON[$z][1]."' value='".$SealedJSON[$z][5]."' forest='".$SealedJSON[$z][6]."' mountain='".$SealedJSON[$z][7]."' ocean='".$SealedJSON[$z][8]."'><img onclick='display(".'"asset/TBF/'.$SealedJSON[$z][0].'.png"'.")' class='carte' id='S".$z."' faction='".$SealedJSON[$z][1]."' mana='".$SealedJSON[$z][3]."' reserve='".$SealedJSON[$z][4]."' src='asset/TBF/".$SealedJSON[$z][0].".png'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
+	echo "<div class='imgAdd' id='SD".$z."' faction='".$SealedJSON[$z][1]."' value='".$SealedJSON[$z][5]."' forest='".$SealedJSON[$z][6]."' mountain='".$SealedJSON[$z][7]."' ocean='".$SealedJSON[$z][8]."'><img onclick=".'"display('."'".$SealedJSON[$z][10]."'".')"'." class='carte' id='S".$z."' faction='".$SealedJSON[$z][1]."' mana='".$SealedJSON[$z][3]."' reserve='".$SealedJSON[$z][4]."' src='".$SealedJSON[$z][10]."'><button id='SB".$z."' class='ButtonCarte' onclick=swap_sealed(".$z.",".$z.")><p>Ajouter<p></button></div>";
 	}
 echo "</div><script>ShowFaction(".$AX.",".$BR.",".$LY.",".$MU.",".$OR.",".$YZ.")</script>";
 
@@ -335,6 +349,13 @@ function reload(value) {
 }
 session_load()
 function session_load() {
+	const SELECT = document.getElementById("SelectSET")
+	for(var i=0;i<SELECT.options.length;i++){
+		if (SELECT.options[i].innerHTML == '<?php echo $SET; ?>') {
+			SELECT.selectedIndex = i;
+			break;
+		}
+	}
 	if (sessionStorage.getItem("DECK") == null) {
 		sessionStorage.DECK = []
 	} else {
