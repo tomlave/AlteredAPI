@@ -351,7 +351,7 @@ session_load()
 function session_load() {
 	const SELECT = document.getElementById("SelectSET")
 	for(var i=0;i<SELECT.options.length;i++){
-		if (SELECT.options[i].innerHTML == '<?php echo $SET; ?>') {
+		if (SELECT.options[i].value == '<?php echo $SET; ?>') {
 			SELECT.selectedIndex = i;
 			break;
 		}
