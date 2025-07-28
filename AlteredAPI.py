@@ -10,16 +10,16 @@ for SET in SETALL:
 	SETCODE = SET[1]
 	SETNAME = SET[0]
 	# Chemin de sauvegarde des image
-	SAVE_PATH_IMG = './AlteredSealed/asset/'+SETNAME+'/'
+	SAVE_PATH_IMG = './AlteredSealed/asset/' + SETNAME + '/'
 
 	# Chemin de sauvegarde des JSON
-	SAVE_PATH_JSON = './AlteredSealed/asset/'+SETNAME
+	SAVE_PATH_JSON = './AlteredSealed/asset/' + SETNAME
 	try:
 		if DOWNLOAD_PNG:
 			# Crée le chemin d'export
 			os.makedirs(SAVE_PATH_IMG)
 			os.makedirs(SAVE_PATH_JSON)
-	except :
+	except NameError:
 		pass
 
 	JSON_HEROS = []
@@ -29,8 +29,7 @@ for SET in SETALL:
 	# Debut du script - boucle sur le nombre de PAGE
 	for runPage in range(1, PAGE):
 		# Appel l'API
-		response = requests.get(API_URL+'?cardSet[]='+SETCODE+'&ItemPerPage='+str(ItemPerPage)+'&page='+str(runPage)+'&locale= ', headers=headers)
-
+		response = requests.get(API_URL + '?cardSet[]=' + SETCODE + '&ItemPerPage=' + str(ItemPerPage) + '&page=' + str(runPage), headers=headers)
 		# Verifies si la connection à reussi
 		if response.status_code == 200:
 
@@ -38,11 +37,11 @@ for SET in SETALL:
 			jsonFile = json.loads(response.text)
 
 			# Debut de la boucle pour recupéré tout les carte sur la PAGE numero "runPage"
-			for runCarte in range(ItemPerPage):
+			for runCarte in jsonFile['hydra:member']:
 				# test pour voir si arrivé à la dernier carte de la dernier page pour evité les erreur
 				try:
-					TypeCarte = (jsonFile['hydra:member'][runCarte]['cardType']['name'])
-				except:
+					TypeCarte = (runCarte['cardType']['name'])
+				except NameError:
 					# si erreur case la boucle
 					print('break')
 					break
@@ -51,28 +50,29 @@ for SET in SETALL:
 				if (TypeCarte != 'Jeton Personnage' and TypeCarte != 'Foiler' and TypeCarte != 'Mana'):
 					# Place tout les info de la carte dans des variable
 					# Numero de la carte
-					NameJPG = (jsonFile['hydra:member'][runCarte]['id'])
+					NameJPG = (runCarte['id'])
 					# Code de reference
-					ReferenceJPG = (jsonFile['hydra:member'][runCarte]['reference'])
+					ReferenceJPG = (runCarte['reference'])
+					print(ReferenceJPG)
 					# Rarter de la carte (Commune,Rare,Out Of Faction)
-					RarityJPG = (jsonFile['hydra:member'][runCarte]['rarity']['reference'])
+					RarityJPG = (runCarte['rarity']['reference'])
 					# Faction de la carte
-					DataFaction = (jsonFile['hydra:member'][runCarte]['mainFaction']['reference'])
+					DataFaction = (runCarte['mainFaction']['reference'])
 					# Nom de la carte
-					DataName = (jsonFile['hydra:member'][runCarte]['name'])
+					DataName = (runCarte['name'])
 					# Cout mana depuit la main
-					DataMain = (jsonFile['hydra:member'][runCarte]['elements']['MAIN_COST'])
+					DataMain = (runCarte['elements']['MAIN_COST'])
 					if DataMain[0] == '#':
 						DataMain = DataMain[1]
 					# Cout en mana depuit la reserve
-					DataRecall = (jsonFile['hydra:member'][runCarte]['elements']['RECALL_COST'])
+					DataRecall = (runCarte['elements']['RECALL_COST'])
 					if DataRecall[0] == '#':
 						DataRecall = DataRecall[1]
 					# Variable de terrain
 					if TypeCarte == 'Personnage':
-						DataForest = (jsonFile['hydra:member'][runCarte]['elements']['FOREST_POWER'])
-						DataMountain = (jsonFile['hydra:member'][runCarte]['elements']['MOUNTAIN_POWER'])
-						DataOcean = (jsonFile['hydra:member'][runCarte]['elements']['OCEAN_POWER'])
+						DataForest = (runCarte['elements']['FOREST_POWER'])
+						DataMountain = (runCarte['elements']['MOUNTAIN_POWER'])
+						DataOcean = (runCarte['elements']['OCEAN_POWER'])
 						if DataForest[0] == '#':
 							DataForest = DataForest[1]
 						if DataMountain[0] == '#':
@@ -84,12 +84,12 @@ for SET in SETALL:
 						DataMountain = 0
 						DataOcean = 0
 					# Lien de image png
-					LinkJPG = (jsonFile['hydra:member'][runCarte]['imagePath'])
+					LinkJPG = (runCarte['imagePath'])
 					# Requet le lien de l'image
 					responseJPG = requests.get(LinkJPG, allow_redirects=True)
 
 					# Si carte hero ajouter à la variable d'export json pour hero
-					if TypeCarte == 'Hero':
+					if TypeCarte == 'Héros':
 						JSON_HEROS.append([NameJPG, DataFaction, DataName, DataMain, DataRecall, ReferenceJPG, DataForest, DataMountain, DataOcean, TypeCarte, LinkJPG])
 
 					# Si carte n'est pas hero ajouter à la variable d'export json pour les non hero
@@ -104,20 +104,20 @@ for SET in SETALL:
 					# Si lien image fonctionne télècharge les image
 					if DOWNLOAD_PNG:
 						if responseJPG.status_code == 200:
-							with open(SAVE_PATH_IMG+NameJPG+".png", 'wb') as f:
+							with open(SAVE_PATH_IMG + NameJPG + ".png", 'wb') as f:
 								f.write(responseJPG.content)
 
 				# ici fin de la boucle carte pass a la suivante de la page
 		# ici fin de la boucle page pass a la suivante ou fin de script
 
 	# Crée les 3 json
-	with open(SAVE_PATH_JSON+"heros.json", 'w') as h:
+	with open(SAVE_PATH_JSON + "heros.json", 'w') as h:
 		# Formatage et mise dans le json
 		json.dump(JSON_HEROS, h)
-	with open(SAVE_PATH_JSON+"common.json", 'w') as c:
+	with open(SAVE_PATH_JSON + "common.json", 'w') as c:
 		# Formatage et mise dans le json
 		json.dump(JSON_CARDS_COMMON, c)
-	with open(SAVE_PATH_JSON+"rare.json", 'w') as r:
+	with open(SAVE_PATH_JSON + "rare.json", 'w') as r:
 		# Formatage et mise dans le json
 		json.dump(JSON_CARDS_RARE, r)
 print("END")
